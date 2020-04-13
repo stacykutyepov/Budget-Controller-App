@@ -1,13 +1,8 @@
-//***********************************************************/
-//PROJECT STARTS HERE *************************************/
-
-// IFEE & CLOSURES
-
-
 // BUDGET CONTROLLER
 //***********************************************************************************************
+
 var budgetController = (function () {
-    // each new item will have a description and value, we need to think where to store it
+    // each new item will have a description and value, we need to think where to store it. Function constructors are the case here.
     var Expense = function (id, description, value) {
         this.id = id;
         this.description = description;
@@ -39,7 +34,7 @@ var budgetController = (function () {
             inc: 0,
         },
         budget: 0,
-        percentage: -1, // doesn't exist 
+        percentage: -1, // if the value is -1, it doesn't exist 
 
     }
 
@@ -61,8 +56,9 @@ var budgetController = (function () {
             } else if (type === 'inc') {
                 newItem = new Income(ID, des, val);
             }
-            // push it into our data srteucture
+            // push it into our data srtructure
             data.allItems[type].push(newItem);
+
             // return the new element
             return newItem;
         },
@@ -180,8 +176,7 @@ var UIController = (function () {
             el.parentNode.removeChild(el);
         },
 
-        // clear Fields
-
+        // clear fields
         clearFields: function () {
             var fields, fieldsArr;
 
@@ -198,7 +193,6 @@ var UIController = (function () {
         },
 
         // Display budget
-
         displayBudget: function (obj) {
             document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
             document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
