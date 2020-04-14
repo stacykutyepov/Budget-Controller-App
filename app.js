@@ -29,7 +29,6 @@ var budgetController = (function () {
         return this.percentage;
     };
 
-
     var calculateTotal = function (type) {
 
         var sum = 0;
@@ -51,7 +50,6 @@ var budgetController = (function () {
         },
         budget: 0,
         percentage: -1, // if the value is -1, it doesn't exist 
-
     }
 
     return {
@@ -60,9 +58,7 @@ var budgetController = (function () {
 
             // create new ID
             if (data.allItems[type].length > 0) {
-
                 ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
-
             } else {
                 ID = 0;
             }
@@ -161,11 +157,12 @@ var UIController = (function () {
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
-        expensesPercLabel: '.item__percentage'
+        expensesPercLabel: '.item__percentage',
+        dateLabel: '.budget__title--month'
 
     };
 
-     var formatNumber = function(num, type) {
+    var formatNumber = function (num, type) {
         var numSplit, int, dec;
         // 2310.4536 ->> + 2.310.46
         // 2000 -> 2,000.00
@@ -181,9 +178,9 @@ var UIController = (function () {
         }
 
         dec = numSplit[1];
-        
+
         return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
-        
+
     };
 
     return {
@@ -214,7 +211,7 @@ var UIController = (function () {
             //replace placeholder with actual data
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
-            newHtml = newHtml.replace('%value%',formatNumber(obj.value, type));
+            newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
             // insert html imto the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
@@ -247,7 +244,7 @@ var UIController = (function () {
         // Display budget
         displayBudget: function (obj) {
 
-            var type; 
+            var type;
             obj.budget > 0 ? type = 'inc' : type = 'exp';
 
             document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
@@ -281,7 +278,14 @@ var UIController = (function () {
             });
         },
 
-       
+        displayMonth: function () {
+            var now, year, month, months;
+             now = new Date();
+             months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+             month = now.getMonth();
+             year = now.getFullYear();
+             document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
+        },
 
         getDOMstrings: function () {
             return DOMstrings;
@@ -396,6 +400,7 @@ var controller = (function (budgetCtrl, UICtrl) {
     return {
         init: function () {
             console.log('Application has started');
+            UIController.displayMonth();
             UICtrl.displayBudget({
                 budget: 0,
                 totalInc: 0,
