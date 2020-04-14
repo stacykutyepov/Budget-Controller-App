@@ -5,3 +5,6 @@ It'll also change the background image according to the current month.
 <br>
 
 <img src="Presentation.png" width="100%">
+
+
+Project is from Udemy "JavaScript Complete Course".
